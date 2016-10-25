@@ -21,10 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidmarkclements/pino-http-print.git"
+    "url": "git+https://github.com/pinojs/pino-http-print.git"
   },
+  "keywords": [],
   "bugs": {
-    "url": "https://github.com/davidmarkclements/pino-http-print/issues"
+    "url": "https://github.com/pinojs/pino-http-print/issues"
   },
-  "homepage": "https://github.com/davidmarkclements/pino-http-print#readme"
+  "homepage": "https://github.com/pinojs/pino-http-print#readme"
 }

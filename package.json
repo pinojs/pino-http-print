@@ -1,6 +1,6 @@
 {
   "name": "pino-http-print",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Debug HTTP printer for pino",
   "main": "index.js",
   "bin": {

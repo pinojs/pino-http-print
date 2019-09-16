@@ -31,7 +31,7 @@ test('does not output non-http log messages by default', function (assert) {
 })
 
 test('outputs non-http log messages when `all` option is set to `true`', function (assert) {
-  const expected = '[1557721475837] \u001B[32mINFO \u001B[39m (48079 on MacBook-Pro-4): \u001B[36mThis is not a request/response log\u001B[39m\n'
+  const expected = '[1557721475837] INFO  (48079 on MacBook-Pro-4): This is not a request/response log\n'
   const allPrinter = printerFactory({ all: true })
 
   var printedLines = []

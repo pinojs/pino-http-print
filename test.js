@@ -7,7 +7,7 @@ const log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":146912249
 const nonHttpLog = '{"pid":48079,"hostname":"MacBook-Pro-4","level":30,"time":1557721475837,"msg":"This is not a request/response log","v":1}\n'
 
 test('outputs log message for req/res serialized pino log', function (assert) {
-  var expected = '17:34:52 GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
   var p = printer(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
@@ -50,7 +50,7 @@ test('outputs non-http log messages when `all` option is set to `true`', functio
 })
 
 test('logs to process.stdout by default', function (assert) {
-  var expected = '17:34:52 GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
   var p = printer()
   var write = process.stdout.write
   process.stdout.write = function (chunk, enc, cb) {

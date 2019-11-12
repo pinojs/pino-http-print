@@ -10,12 +10,14 @@ const { prettifyTime } = require('pino-pretty/lib/utils')
  * @property {boolean} [colorize] colorize logs, default is automatically set by chalk.supportsColor
  * @property {boolean|string} [translateTime] (default: false) When `true` the timestamp will be prettified into a string,
  *  When false the epoch time will be printed, other valid options are same as for `pino-pretty`
+ * @property {boolean} [relativeUrl] (default: false)
  */
 
 /** @type {HttpPrintOptions} */
 const defaultOptions = {
   colorize: chalk.supportsColor,
   translateTime: false,
+  relativeUrl: false,
   all: false
 }
 
@@ -31,20 +33,24 @@ const colored = {
   url: ctx.cyan
 }
 
+/**
+ * @param {any} o 
+ * @param {HttpPrintOptions} opts 
+ */
 function format (o, opts) {
   var time = o.time
   if (opts.translateTime) {
     time = prettifyTime({ log: o, translateFormat: opts.translateTime })
   }
-
+  var url =  (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url;
+  
   if (!opts.colorize) {
-    return time + ' ' + o.req.method + ' http://' + o.req.headers.host +
-      o.req.url + ' ' + o.res.statusCode + '\n'
+    return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + '\n'
   }
 
   const levelColor = colored[o.level] || colored.default
-  return colored.default(time) + ' ' + colored.url(o.req.method) + ' http://' + o.req.headers.host +
-    o.req.url + ' ' + levelColor(o.res.statusCode) + '\n'
+  return colored.default(time) + ' ' + colored.url(o.req.method) + ' ' +
+    url + ' ' + levelColor(o.res.statusCode) + '\n'
 }
 
 /**

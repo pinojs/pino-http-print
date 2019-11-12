@@ -30,7 +30,7 @@ const colored = {
   30: ctx.green,
   20: ctx.blue,
   10: ctx.grey,
-  url: ctx.cyan
+  method: ctx.cyan
 }
 
 /**
@@ -49,7 +49,7 @@ function format (o, opts) {
   }
 
   const levelColor = colored[o.level] || colored.default
-  return colored.default(time) + ' ' + colored.url(o.req.method) + ' ' +
+  return colored.default(time) + ' ' + colored.method(o.req.method) + ' ' +
     url + ' ' + levelColor(o.res.statusCode) + '\n'
 }
 

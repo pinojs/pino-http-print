@@ -2,14 +2,27 @@ const parse = require('ndjson').parse
 const through = require('through2').obj
 const prettyFactory = require('pino-pretty')
 
+/**
+ * @typedef {Object} HttpPrintOptions
+ * @property {boolean} [all]
+ */
+
+/** @type {HttpPrintOptions} */
 const defaultOptions = {
   all: false // support all log messages, not just HTTP logs
 }
 
+/**
+ * @param {HttpPrintOptions} [options]
+ * @param {Object} [prettyOptions] options to forward to `pino-pretty` when `all` option is set
+ */
 module.exports = function httpPrintFactory (options, prettyOptions) {
   const opts = Object.assign({}, defaultOptions, options)
   const prettyPrinter = prettyFactory(prettyOptions)
 
+  /**
+   * @param {any} [stream] A writeable stream, if not passed then process.stdout is used
+   */
   return function (stream) {
     var printer = parse()
     var transform = through(function (o, _, cb) {

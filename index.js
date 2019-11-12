@@ -34,16 +34,13 @@ const colored = {
 }
 
 /**
- * @param {any} o 
- * @param {HttpPrintOptions} opts 
+ * @param {any} o
+ * @param {HttpPrintOptions} opts
  */
 function format (o, opts) {
-  var time = o.time
-  if (opts.translateTime) {
-    time = prettifyTime({ log: o, translateFormat: opts.translateTime })
-  }
-  var url =  (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url;
-  
+  var time = prettifyTime({ log: o, translateFormat: opts.translateTime })
+  var url = (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url
+
   if (!opts.colorize) {
     return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + '\n'
   }

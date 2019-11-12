@@ -15,6 +15,26 @@ test('outputs log message for req/res serialized pino log', function (assert) {
   p.write(log)
 })
 
+test('translates time when option is set', function (assert) {
+  const translateTimePrinter = printerFactory({ translateTime: true })
+  var expected = '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200\n'
+  var p = translateTimePrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(log)
+})
+
+test('use relative url when option is set', function (assert) {
+  const relativeUrlPrinter = printerFactory({ relativeUrl: true })
+  var expected = '[1469122492244] GET /api/activity/component 200\n'
+  var p = relativeUrlPrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(log)
+})
+
 test('does not output non-http log messages by default', function (assert) {
   var printedLines = []
 

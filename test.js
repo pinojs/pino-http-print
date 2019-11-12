@@ -38,14 +38,13 @@ test('use relative url when option is set', function (assert) {
 
 todo('colorize when option is set', function (assert) {
   const coloredPrinter = printerFactory({ colorize: true })
-  var expected = '\\e[37m[1469122492244]\\e[39m \\e[36mGET\\e[39m http:\/\/localhost:20000\/api\/activity\/component \\e[32m200\\e[39m\\n"'
+  var expected = '"\\e[37m[1469122492244]\\e[39m \\e[36mGET\\e[39m http://localhost:20000/api/activity/component \\e[32m200\\e[39m\\n"'
   var p = coloredPrinter(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
   }))
   p.write(log)
 })
-
 
 test('does not output non-http log messages by default', function (assert) {
   var printedLines = []

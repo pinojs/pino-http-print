@@ -6,9 +6,9 @@ const defaultOptions = {
   all: false // support all log messages, not just HTTP logs
 }
 
-module.exports = function httpPrintFactory (options) {
+module.exports = function httpPrintFactory (options, prettyOptions) {
   const opts = Object.assign({}, defaultOptions, options)
-  const prettyPrinter = prettyFactory()
+  const prettyPrinter = prettyFactory(prettyOptions)
 
   return function (stream) {
     var printer = parse()

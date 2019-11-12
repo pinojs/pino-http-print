@@ -2,7 +2,7 @@ const chalk = require('chalk')
 const parse = require('ndjson').parse
 const through = require('through2').obj
 const prettyFactory = require('pino-pretty')
-const {prettifyTime} = require('pino-pretty/lib/utils')
+const { prettifyTime } = require('pino-pretty/lib/utils')
 
 /**
  * @typedef {Object} HttpPrintOptions
@@ -15,7 +15,7 @@ const {prettifyTime} = require('pino-pretty/lib/utils')
 /** @type {HttpPrintOptions} */
 const defaultOptions = {
   colorize: chalk.supportsColor,
-  translateTime: false, 
+  translateTime: false,
   all: false
 }
 
@@ -29,12 +29,12 @@ const colored = {
   20: ctx.blue,
   10: ctx.grey,
   url: ctx.cyan
-};
+}
 
-function format(o, opts) {
-  var time = o.time;
+function format (o, opts) {
+  var time = o.time
   if (opts.translateTime) {
-    time = prettifyTime({log: o, translateFormat: opts.translateTime});
+    time = prettifyTime({ log: o, translateFormat: opts.translateTime })
   }
 
   if (!opts.colorize) {
@@ -42,7 +42,7 @@ function format(o, opts) {
       o.req.url + ' ' + o.res.statusCode + '\n'
   }
 
-  const levelColor = colored[o.level] || colored.default;
+  const levelColor = colored[o.level] || colored.default
   return colored.default(time) + ' ' + colored.url(o.req.method) + ' http://' + o.req.headers.host +
     o.req.url + ' ' + levelColor(o.res.statusCode) + '\n'
 }
@@ -69,7 +69,7 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
           cb(null, null)
         }
       } else {
-        var log = format(o, opts);
+        var log = format(o, opts)
 
         cb(null, log)
       }

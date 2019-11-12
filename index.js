@@ -1,15 +1,43 @@
+const chalk = require('chalk')
 const parse = require('ndjson').parse
 const through = require('through2').obj
 const prettyFactory = require('pino-pretty')
 
 /**
  * @typedef {Object} HttpPrintOptions
- * @property {boolean} [all]
+ * @property {boolean} [all] support all log messages, not just HTTP logs
+ * @property {boolean} [colorize] colorize logs, default is automatically set by chalk.supportsColor
  */
 
 /** @type {HttpPrintOptions} */
 const defaultOptions = {
-  all: false // support all log messages, not just HTTP logs
+  colorize: chalk.supportsColor,
+  all: false 
+}
+
+const ctx = new chalk.Instance({ enabled: true, level: 3 })
+const colored = {
+  default: ctx.white,
+  60: ctx.bgRed,
+  50: ctx.red,
+  40: ctx.yellow,
+  30: ctx.green,
+  20: ctx.blue,
+  10: ctx.grey,
+  url: ctx.cyan
+};
+
+function format(o, colorize) {
+  var time = new Date(o.time).toISOString().split('T')[1].split('.')[0]
+
+  if (!colorize) {
+    return time + ' ' + o.req.method + ' http://' + o.req.headers.host +
+      o.req.url + ' ' + o.res.statusCode + '\n'
+  }
+
+  const levelColor = colored[o.level] || colored.default;
+  return colored.default(time) + ' ' + colored.url(o.req.method) + ' http://' + o.req.headers.host +
+    o.req.url + ' ' + levelColor(o.res.statusCode) + '\n'
 }
 
 /**
@@ -34,9 +62,8 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
           cb(null, null)
         }
       } else {
-        var time = new Date(o.time).toISOString().split('T')[1].split('.')[0]
-        var log = time + ' ' + o.req.method + ' http://' + o.req.headers.host +
-          o.req.url + ' ' + o.res.statusCode + '\n'
+        var log = format(o, opts.colorize);
+
         cb(null, log)
       }
     })

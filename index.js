@@ -2,17 +2,21 @@ const chalk = require('chalk')
 const parse = require('ndjson').parse
 const through = require('through2').obj
 const prettyFactory = require('pino-pretty')
+const {prettifyTime} = require('pino-pretty/lib/utils')
 
 /**
  * @typedef {Object} HttpPrintOptions
  * @property {boolean} [all] support all log messages, not just HTTP logs
  * @property {boolean} [colorize] colorize logs, default is automatically set by chalk.supportsColor
+ * @property {boolean|string} [translateTime] (default: false) When `true` the timestamp will be prettified into a string,
+ *  When false the epoch time will be printed, other valid options are same as for `pino-pretty`
  */
 
 /** @type {HttpPrintOptions} */
 const defaultOptions = {
   colorize: chalk.supportsColor,
-  all: false 
+  translateTime: false, 
+  all: false
 }
 
 const ctx = new chalk.Instance({ enabled: true, level: 3 })
@@ -27,10 +31,13 @@ const colored = {
   url: ctx.cyan
 };
 
-function format(o, colorize) {
-  var time = new Date(o.time).toISOString().split('T')[1].split('.')[0]
+function format(o, opts) {
+  var time = o.time;
+  if (opts.translateTime) {
+    time = prettifyTime({log: o, translateFormat: opts.translateTime});
+  }
 
-  if (!colorize) {
+  if (!opts.colorize) {
     return time + ' ' + o.req.method + ' http://' + o.req.headers.host +
       o.req.url + ' ' + o.res.statusCode + '\n'
   }
@@ -62,7 +69,7 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
           cb(null, null)
         }
       } else {
-        var log = format(o, opts.colorize);
+        var log = format(o, opts);
 
         cb(null, log)
       }

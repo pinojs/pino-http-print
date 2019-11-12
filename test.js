@@ -49,6 +49,25 @@ test('outputs non-http log messages when `all` option is set to `true`', functio
   })
 })
 
+test('passes options to pino-pretty when `all` option is set to `true`', function (assert) {
+  const expected = '[2019-05-13 04:24:35.837 +0000] INFO  (48079 on MacBook-Pro-4): This is not a request/response log\n'
+  const allPrinter = printerFactory({ all: true }, { translateTime: true })
+
+  var printedLines = []
+
+  var p = allPrinter(through(function (line) {
+    printedLines.push(line.toString())
+  }))
+
+  p.write(nonHttpLog)
+
+  setImmediate(() => {
+    assert.is(printedLines.length, 1)
+    assert.is(printedLines[0], expected)
+    assert.end()
+  })
+})
+
 test('logs to process.stdout by default', function (assert) {
   var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
   var p = printer()

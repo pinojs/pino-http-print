@@ -56,7 +56,10 @@ function format (o, opts) {
  */
 module.exports = function httpPrintFactory (options, prettyOptions) {
   const opts = Object.assign({}, defaultOptions, options)
-  const prettyPrinter = prettyFactory(prettyOptions)
+  const prettyPrinter = prettyFactory(Object.assign({}, {
+    colorize: opts.colorize,
+    translateTime: opts.translateTime
+  }, prettyOptions))
 
   /**
    * @param {any} [stream] A writeable stream, if not passed then process.stdout is used

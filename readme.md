@@ -30,19 +30,37 @@ just pass in the `printer` stream.
 ## Example Output
 
 ```sh
-17:34:52 GET http://localhost:20000/api/activity/component 200\n
+[1574071926285] GET http://localhost:20000/api/activity/component 200\n
 ```
 
 ## API
 
-## printerFactory(options) => ( Function([Stream]) => Stream )
+### printerFactory(options, pinoPrettyOptions) => ( Function([Stream]) => Stream )
 
-Returns a new printer. The options currently take one value: `{ all: true | false }`.
-When `all` is set to `true`, the printer uses `pino-pretty` to print non-HTTP log messages.
+Returns a new printer.
+The common options between this and [`pino-pretty` options](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#options) are set from the first object itself. `pinoPrettyOption` is forwarded to `pino-pretty` for non-http logs (when `all` is true).
 
-## printer([Stream]) => Stream
+See the [Options](#options) section for all possible options.
+
+### printer([Stream]) => Stream
 
 Returns a stream that will pull off 
+
+## Options
+
+Options argument for `printerFactory` with keys corresponding to the options described in [CLI Arguments](#cli):
+
+```js
+{
+  colorize: chalk.supportsColor, // --colorize
+  all: false, // --all
+  translateTime: false, // --translateTime
+  relativeUrl: false, // --relativeUrl
+}
+```
+
+The `colorize` default follows
+[`chalk.supportsColor`](https://www.npmjs.com/package/chalk#chalksupportscolor).
 
 ## CLI
 
@@ -56,11 +74,15 @@ Spin up server that uses a pino http logger and pipe it to `pino-http-print`
 node server | pino-http-print
 ```
 
-Passing `-a` as an argument causes `pino-http-print` to also print non-HTTP log messages by passing them through to `pino-pretty`.
+### CLI Arguments
 
-```sh
-node server | pino-http-print -a
-```
+- `-all` (`-a`): Causes `pino-http-print` to also print non-HTTP log messages by passing them through to `pino-pretty`.
+- `--colorize` (`-c`): Adds terminal color escape sequences to the output.
+- `--translateTime` (`-t`): Translate the epoch time value into a human readable
+  date and time string. This flag also can set the format string to apply when
+  translating the date to human readable format. This is the same as `pino-pretty` [translateTime](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#cli-arguments)
+  - The default format is `yyyy-mm-dd HH:MM:ss.l o` in UTC.
+- `--relativeUrl` (`-r`): print only the relative url
 
 ## LICENSE
 

@@ -46,7 +46,7 @@ function format (o, opts) {
   }
 
   const levelColor = colored[o.level] || colored.default
-  return colored.default(time) + ' ' + colored.method(o.req.method) + ' ' +
+  return time + ' ' + colored.method(o.req.method) + ' ' +
     url + ' ' + levelColor(o.res.statusCode) + '\n'
 }
 

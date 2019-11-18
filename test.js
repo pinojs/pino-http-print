@@ -37,7 +37,7 @@ test('use relative url when option is set', function (assert) {
 
 test('colorize when option is set (http log)', function (assert) {
   const coloredPrinter = printerFactory({ colorize: true })
-  var expected = '\u001B[37m[1469122492244]\u001B[39m \u001B[36mGET\u001B[39m http://localhost:20000/api/activity/component \u001B[32m200\u001B[39m\n'
+  var expected = '[1469122492244] \u001B[36mGET\u001B[39m http://localhost:20000/api/activity/component \u001B[32m200\u001B[39m\n'
   var p = coloredPrinter(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()

@@ -38,7 +38,7 @@ just pass in the `printer` stream.
 ### printerFactory(options, pinoPrettyOptions) => ( Function([Stream]) => Stream )
 
 Returns a new printer.
-The common options between this and [`pino-pretty` options](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#options) are set from the first object itself. `pinoPrettyOption` is forwarded to `pino-pretty` for non-http logs (when `all` is true).
+The common options between this and [`pino-pretty` options](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#options) are set from the first object itself. `pinoPrettyOptions` is forwarded to `pino-pretty` for non-http logs (when `all` is true).
 
 See the [Options](#options) section for all possible options.
 

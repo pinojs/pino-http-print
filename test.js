@@ -7,12 +7,52 @@ const log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":146912249
 const nonHttpLog = '{"pid":48079,"hostname":"MacBook-Pro-4","level":30,"time":1557721475837,"msg":"This is not a request/response log","v":1}\n'
 
 test('outputs log message for req/res serialized pino log', function (assert) {
-  var expected = '17:34:52 GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
   var p = printer(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
   }))
   p.write(log)
+})
+
+test('translates time when option is set', function (assert) {
+  const translateTimePrinter = printerFactory({ translateTime: true })
+  var expected = '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200\n'
+  var p = translateTimePrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(log)
+})
+
+test('use relative url when option is set', function (assert) {
+  const relativeUrlPrinter = printerFactory({ relativeUrl: true })
+  var expected = '[1469122492244] GET /api/activity/component 200\n'
+  var p = relativeUrlPrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(log)
+})
+
+test('colorize when option is set (http log)', function (assert) {
+  const coloredPrinter = printerFactory({ colorize: true })
+  var expected = '[1469122492244] \u001B[36mGET\u001B[39m http://localhost:20000/api/activity/component \u001B[32m200\u001B[39m\n'
+  var p = coloredPrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(log)
+})
+
+test('colorize when option is set (non-http log)', function (assert) {
+  const coloredPrinter = printerFactory({ colorize: true, all: true })
+  var expected = '[1557721475837] \u001B[32mINFO \u001B[39m (48079 on MacBook-Pro-4): \u001B[36mThis is not a request/response log\u001B[39m\n'
+  var p = coloredPrinter(through(function (line) {
+    assert.is(line.toString(), expected)
+    assert.end()
+  }))
+  p.write(nonHttpLog)
 })
 
 test('does not output non-http log messages by default', function (assert) {
@@ -49,8 +89,27 @@ test('outputs non-http log messages when `all` option is set to `true`', functio
   })
 })
 
+test('passes options to pino-pretty when `all` option is set to `true`', function (assert) {
+  const expected = '[2019-05-13 04:24:35.837 +0000] INFO  (48079 on MacBook-Pro-4): This is not a request/response log\n'
+  const allPrinter = printerFactory({ all: true }, { translateTime: true })
+
+  var printedLines = []
+
+  var p = allPrinter(through(function (line) {
+    printedLines.push(line.toString())
+  }))
+
+  p.write(nonHttpLog)
+
+  setImmediate(() => {
+    assert.is(printedLines.length, 1)
+    assert.is(printedLines[0], expected)
+    assert.end()
+  })
+})
+
 test('logs to process.stdout by default', function (assert) {
-  var expected = '17:34:52 GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
   var p = printer()
   var write = process.stdout.write
   process.stdout.write = function (chunk, enc, cb) {

@@ -20,6 +20,7 @@
     "chalk": "^2.4.2",
     "ndjson": "^1.4.3",
     "pino-pretty": "^3.0.0",
+    "pretty-ms": "^7.0.0",
     "through2": "^3.0.1"
   },
   "repository": {

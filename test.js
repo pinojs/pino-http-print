@@ -7,7 +7,7 @@ const log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":146912249
 const nonHttpLog = '{"pid":48079,"hostname":"MacBook-Pro-4","level":30,"time":1557721475837,"msg":"This is not a request/response log","v":1}\n'
 
 test('outputs log message for req/res serialized pino log', function (assert) {
-  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200 17ms\n'
   var p = printer(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
@@ -17,7 +17,7 @@ test('outputs log message for req/res serialized pino log', function (assert) {
 
 test('translates time when option is set', function (assert) {
   const translateTimePrinter = printerFactory({ translateTime: true })
-  var expected = '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200 17ms\n'
   var p = translateTimePrinter(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
@@ -27,7 +27,7 @@ test('translates time when option is set', function (assert) {
 
 test('use relative url when option is set', function (assert) {
   const relativeUrlPrinter = printerFactory({ relativeUrl: true })
-  var expected = '[1469122492244] GET /api/activity/component 200\n'
+  var expected = '[1469122492244] GET /api/activity/component 200 17ms\n'
   var p = relativeUrlPrinter(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
@@ -37,7 +37,7 @@ test('use relative url when option is set', function (assert) {
 
 test('colorize when option is set (http log)', function (assert) {
   const coloredPrinter = printerFactory({ colorize: true })
-  var expected = '[1469122492244] \u001B[36mGET\u001B[39m http://localhost:20000/api/activity/component \u001B[32m200\u001B[39m\n'
+  var expected = '[1469122492244] \u001B[36mGET\u001B[39m http://localhost:20000/api/activity/component \u001B[32m200\u001B[39m 17ms\n'
   var p = coloredPrinter(through(function (line) {
     assert.is(line.toString(), expected)
     assert.end()
@@ -109,7 +109,7 @@ test('passes options to pino-pretty when `all` option is set to `true`', functio
 })
 
 test('logs to process.stdout by default', function (assert) {
-  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200\n'
+  var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200 17ms\n'
   var p = printer()
   var write = process.stdout.write
   process.stdout.write = function (chunk, enc, cb) {

@@ -3,6 +3,7 @@ const parse = require('ndjson').parse
 const through = require('through2').obj
 const prettyFactory = require('pino-pretty')
 const { prettifyTime } = require('pino-pretty/lib/utils')
+const prettyMs = require('pretty-ms')
 
 /**
  * @typedef {Object} HttpPrintOptions
@@ -40,14 +41,15 @@ const colored = {
 function format (o, opts) {
   var time = prettifyTime({ log: o, translateFormat: opts.translateTime })
   var url = (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url
+  var responseTime = prettyMs(o.responseTime)
 
   if (!opts.colorize) {
-    return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + '\n'
+    return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + ' ' + responseTime + '\n'
   }
 
   const levelColor = colored[o.level] || colored.default
   return time + ' ' + colored.method(o.req.method) + ' ' +
-    url + ' ' + levelColor(o.res.statusCode) + '\n'
+    url + ' ' + levelColor(o.res.statusCode) + ' ' + responseTime + '\n'
 }
 
 /**

@@ -41,7 +41,7 @@ const colored = {
 function format (o, opts) {
   var time = prettifyTime({ log: o, translateFormat: opts.translateTime })
   var url = (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url
-  var responseTime = prettyMs(o.responseTime, { compact: true })
+  var responseTime = prettyMs(o.responseTime)
 
   if (!opts.colorize) {
     return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + ' ' + responseTime + '\n'

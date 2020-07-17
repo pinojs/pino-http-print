@@ -12,6 +12,8 @@ const prettyMs = require('pretty-ms')
  * @property {boolean|string} [translateTime] (default: false) When `true` the timestamp will be prettified into a string,
  *  When false the epoch time will be printed, other valid options are same as for `pino-pretty`
  * @property {boolean} [relativeUrl] (default: false)
+ * @property {boolean} [lax] (default: false) When `true` the JSON parser will silently discard unparseable logs, e.g.
+ * from nodemon
  */
 
 /** @type {HttpPrintOptions} */
@@ -19,7 +21,8 @@ const defaultOptions = {
   colorize: chalk.supportsColor,
   translateTime: false,
   relativeUrl: false,
-  all: false
+  all: false,
+  lax: false
 }
 
 const ctx = new chalk.constructor({ enabled: true, level: 3 })
@@ -67,7 +70,7 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
    * @param {any} [stream] A writeable stream, if not passed then process.stdout is used
    */
   return function (stream) {
-    var printer = parse()
+    var printer = parse({ strict: !opts.lax })
     var transform = through(function (o, _, cb) {
       if (!o.req || !o.res) {
         if (opts.all === true) {

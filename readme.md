@@ -56,6 +56,7 @@ Options argument for `printerFactory` with keys corresponding to the options des
   all: false, // --all
   translateTime: false, // --translateTime
   relativeUrl: false, // --relativeUrl
+  lax: false  // --lax
 }
 ```
 

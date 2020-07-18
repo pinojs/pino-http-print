@@ -5,6 +5,7 @@ const test = require('tap').test
 
 const log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":1469122492244,"msg":"request completed","res":{"statusCode":200,"header":"HTTP/1.1 200 OK\\r\\ncontent-type: application/json; charset=utf-8\\r\\ncache-control: no-cache\\r\\nvary: accept-encoding\\r\\ncontent-encoding: gzip\\r\\ndate: Thu, 21 Jul 2016 17:34:52 GMT\\r\\nconnection: close\\r\\ntransfer-encoding: chunked\\r\\n\\r\\n"},"responseTime":17,"req":{"id":8,"method":"GET","url":"/api/activity/component","headers":{"host":"localhost:20000","connection":"keep-alive","cache-control":"max-age=0","accept":"application/json","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36","referer":"http://localhost:20000/","accept-encoding":"gzip, deflate, sdch","accept-language":"en-US,en;q=0.8,de;q=0.6","cookie":"_ga=GA1.1.204420087.1444842476"},"remoteAddress":"127.0.0.1","remotePort":61543},"v":1}\n'
 const nonHttpLog = '{"pid":48079,"hostname":"MacBook-Pro-4","level":30,"time":1557721475837,"msg":"This is not a request/response log","v":1}\n'
+const nonJSONLog = 'this is just some raw text that can\'t parse as JSON\n'
 
 test('outputs log message for req/res serialized pino log', function (assert) {
   var expected = '[1469122492244] GET http://localhost:20000/api/activity/component 200 17ms\n'
@@ -118,4 +119,21 @@ test('logs to process.stdout by default', function (assert) {
     assert.end()
   }
   p.write(log)
+})
+
+test('disables parser strictness and discards invalid lines when the `lax` option is `true`', function (assert) {
+  const allPrinter = printerFactory({ all: true, lax: true })
+
+  var printedLines = []
+
+  var p = allPrinter(through(function (line) {
+    printedLines.push(line.toString())
+  }))
+
+  p.write(nonJSONLog)
+
+  setImmediate(() => {
+    assert.is(printedLines.length, 0)
+    assert.end()
+  })
 })

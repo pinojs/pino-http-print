@@ -25,7 +25,7 @@ const defaultOptions = {
   lax: false
 }
 
-const ctx = new chalk.constructor({ enabled: true, level: 3 })
+const ctx = new chalk.Instance({ level: 3 })
 const colored = {
   default: ctx.white,
   60: ctx.bgRed,

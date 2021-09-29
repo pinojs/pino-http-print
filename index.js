@@ -42,9 +42,9 @@ const colored = {
  * @param {HttpPrintOptions} opts
  */
 function format (o, opts) {
-  var time = prettifyTime({ log: o, translateFormat: opts.translateTime })
-  var url = (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url
-  var responseTime = prettyMs(o.responseTime)
+  const time = prettifyTime({ log: o, translateFormat: opts.translateTime })
+  const url = (opts.relativeUrl ? '' : ('http://' + o.req.headers.host)) + o.req.url
+  const responseTime = prettyMs(o.responseTime)
 
   if (!opts.colorize) {
     return time + ' ' + o.req.method + ' ' + url + ' ' + o.res.statusCode + ' ' + responseTime + '\n'
@@ -70,8 +70,8 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
    * @param {any} [stream] A writeable stream, if not passed then process.stdout is used
    */
   return function (stream) {
-    var printer = parse({ strict: !opts.lax })
-    var transform = through(function (o, _, cb) {
+    const printer = parse({ strict: !opts.lax })
+    const transform = through(function (o, _, cb) {
       if (!o.req || !o.res) {
         if (opts.all === true) {
           // Pass non-http log message through to pino-pretty
@@ -80,7 +80,7 @@ module.exports = function httpPrintFactory (options, prettyOptions) {
           cb(null, null)
         }
       } else {
-        var log = format(o, opts)
+        const log = format(o, opts)
 
         cb(null, log)
       }

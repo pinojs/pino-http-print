@@ -7,12 +7,13 @@
     "pino-http-print": "./cmd.js"
   },
   "scripts": {
+    "lint:fix": "standard --fix",
     "test": "standard && tap test.js"
   },
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "standard": "^14.0.0",
+    "standard": "^16.0.3",
     "strip-ansi": "^6.0.0",
     "tap": "^14.0.0"
   },

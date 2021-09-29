@@ -1,5 +1,7 @@
 # pino-http-print
 
+[![CI](https://github.com/pinojs/pino-http-print/actions/workflows/ci.yml/badge.svg)](https://github.com/pinojs/pino-http-print/actions/workflows/ci.yml)
+
 Debug HTTP printer for pino
 
 ## Supports

@@ -21,7 +21,7 @@
     "args": "^5.0.1",
     "chalk": "^4.0.0",
     "ndjson": "^2.0.0",
-    "pino-pretty": "^4.0.0",
+    "pino-pretty": "^7.0.1",
     "pretty-ms": "^7.0.0",
     "through2": "^4.0.0"
   },

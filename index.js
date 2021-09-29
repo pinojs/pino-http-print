@@ -1,7 +1,7 @@
 const chalk = require('chalk')
 const parse = require('ndjson').parse
 const through = require('through2').obj
-const prettyFactory = require('pino-pretty')
+const { prettyFactory } = require('pino-pretty')
 const { prettifyTime } = require('pino-pretty/lib/utils')
 const prettyMs = require('pretty-ms')
 

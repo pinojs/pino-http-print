@@ -19,6 +19,7 @@ const transport = pino.transport({
   level: 'info',
   options: {
     destination: 1, // optional (default stdout)
+    all: true,
     colorize: false,
     translateTime: true
     ... // other options
@@ -30,7 +31,7 @@ pino(transport)
 The options object's properties are [described below](#options).
 There is only one extra property:
 
-+ `prettyOptions`: it [`pino-pretty` options](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#options) are set from the first object itself. `pinoPrettyOptions` is forwarded to `pino-pretty` for non-http logs (when `all` is true).
++ `prettyOptions`: this property is forwarded to `pino-pretty` for non-http logs (when `all` is true). It must be [`pino-pretty` options](https://github.com/pinojs/pino-pretty/blob/master/Readme.md#options) object. 
 
 
 ## Usage as module

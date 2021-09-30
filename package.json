@@ -13,6 +13,7 @@
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
+    "pino": "^7.0.0-rc.7",
     "standard": "^16.0.3",
     "strip-ansi": "^6.0.0",
     "tap": "^15.0.10"
@@ -21,6 +22,7 @@
     "args": "^5.0.1",
     "chalk": "^4.0.0",
     "ndjson": "^2.0.0",
+    "pino-abstract-transport": "^0.3.0",
     "pino-pretty": "^7.0.1",
     "pretty-ms": "^7.0.0",
     "through2": "^4.0.0"

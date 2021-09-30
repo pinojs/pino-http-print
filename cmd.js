@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const args = require('args')
-const printFactory = require('./')
+const { httpPrintFactory } = require('./')
 
 args
   .option(['a', 'all'], 'Handle all log messages, not just HTTP request/response logs')
@@ -18,6 +18,6 @@ args
   .example('cat log | pino-http-print -x', 'When non-JSON can reach stdout use -x to silently discard it')
 
 const opts = args.parse(process.argv)
-const printer = printFactory(opts)
+const printer = httpPrintFactory(opts)
 
 process.stdin.pipe(printer())

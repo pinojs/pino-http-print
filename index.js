@@ -7,6 +7,17 @@ const { defaultOptions, format } = require('./lib/utils')
 const transport = require('./lib/transport')
 
 /**
+ * @typedef {Object} HttpPrintOptions
+ * @property {boolean} [all] support all log messages, not just HTTP logs
+ * @property {boolean} [colorize] colorize logs, default is automatically set by chalk.supportsColor
+ * @property {boolean|string} [translateTime] (default: false) When `true` the timestamp will be prettified into a string,
+ *  When false the epoch time will be printed, other valid options are same as for `pino-pretty`
+ * @property {boolean} [relativeUrl] (default: false)
+ * @property {boolean} [lax] (default: false) When `true` the JSON parser will silently discard unparseable logs, e.g.
+ * from nodemon
+ */
+
+/**
  * @param {HttpPrintOptions} [options]
  * @param {Object} [prettyOptions] options to forward to `pino-pretty` when `all` option is set
  */

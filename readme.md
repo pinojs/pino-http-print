@@ -78,7 +78,7 @@ Options argument for `httpPrintFactory` with keys corresponding to the options d
 
 ```js
 {
-  colorize: chalk.supportsColor, // --colorize
+  colorize: colorette.isColorSupported, // --colorize
   all: false, // --all
   translateTime: false, // --translateTime
   relativeUrl: false, // --relativeUrl
@@ -87,7 +87,7 @@ Options argument for `httpPrintFactory` with keys corresponding to the options d
 ```
 
 The `colorize` default follows
-[`chalk.supportsColor`](https://www.npmjs.com/package/chalk#chalksupportscolor).
+[`colorette.isColorSupported`](https://github.com/jorgebucaran/colorette#iscolorsupported).
 
 ## Usage as Pino Legacy Transport
 

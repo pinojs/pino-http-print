@@ -1,6 +1,6 @@
 {
   "name": "pino-http-print",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Debug HTTP printer for pino",
   "main": "index.js",
   "bin": {
@@ -13,7 +13,7 @@
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "pino": "^7.0.0-rc.8",
+    "pino": "^7.0.0",
     "standard": "^16.0.3",
     "strip-ansi": "^6.0.0",
     "tap": "^15.0.10"

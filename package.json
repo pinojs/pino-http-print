@@ -24,7 +24,7 @@
     "ndjson": "^2.0.0",
     "pino-abstract-transport": "^1.0.0",
     "pino-pretty": "^8.1.0",
-    "pretty-ms": "^7.0.0",
+    "pretty-ms": "^8.0.0",
     "through2": "^4.0.0"
   },
   "repository": {

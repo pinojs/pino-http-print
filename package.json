@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "pino": "^7.0.0",
-    "standard": "^16.0.3",
+    "standard": "^17.0.0",
     "strip-ansi": "^6.0.0",
     "tap": "^15.0.10"
   },

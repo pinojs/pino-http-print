@@ -22,7 +22,7 @@
     "args": "^5.0.1",
     "colorette": "^2.0.14",
     "ndjson": "^2.0.0",
-    "pino-abstract-transport": "^0.4.0",
+    "pino-abstract-transport": "^1.0.0",
     "pino-pretty": "^7.0.1",
     "pretty-ms": "^7.0.0",
     "through2": "^4.0.0"

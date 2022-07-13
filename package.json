@@ -8,12 +8,12 @@
   },
   "scripts": {
     "lint:fix": "standard --fix",
-    "test": "standard && tap --color test/*.test.js"
+    "test": "standard && tap --no-coverage --color test/*.test.js"
   },
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "pino": "^7.0.0",
+    "pino": "^8.0.0",
     "standard": "^17.0.0",
     "strip-ansi": "^6.0.0",
     "tap": "^16.3.0"

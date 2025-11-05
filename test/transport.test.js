@@ -1,19 +1,20 @@
 'use strict'
 
-const t = require('tap')
-const os = require('os')
-const fs = require('fs')
-const { spawnSync } = require('child_process')
-const { join } = require('path')
-const { once } = require('events')
-const { promisify } = require('util')
+const test = require('node:test')
+const assert = require('node:assert')
+const os = require('node:os')
+const fs = require('node:fs')
+const { spawnSync } = require('node:child_process')
+const { join } = require('node:path')
+const { once } = require('node:events')
+const { promisify } = require('node:util')
 const pino = require('pino')
 
 const logHttp = require('./fixtures/http-log.json')
 
 const timeout = promisify(setTimeout)
 
-t.test('http-print pino transport test', async t => {
+test('http-print pino transport test', async () => {
   const destination = join(
     os.tmpdir(),
     'pino-transport-test.log'
@@ -33,9 +34,9 @@ t.test('http-print pino transport test', async t => {
     options
   })
   const log = pino(transport)
-  t.pass('built pino')
+  assert.ok('built pino')
   await once(transport, 'ready')
-  t.pass('transport ready ' + destination)
+  assert.ok('transport ready ' + destination)
 
   log.info(logHttp)
   log.info('this is just some raw text')
@@ -45,21 +46,21 @@ t.test('http-print pino transport test', async t => {
   await timeout(1000)
 
   const data = fs.readFileSync(destination, 'utf8')
-  t.equal(data.trim(), '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200 17ms')
+  assert.equal(data.trim(), '[2016-07-21 17:34:52.244 +0000] GET http://localhost:20000/api/activity/component 200 17ms')
 })
 
-t.test('http-print pino transport test stdout', async t => {
+test('http-print pino transport test stdout', async () => {
   const result = spawnSync('node', [join(__dirname, 'fixtures', 'log-stdout.js'), '1'], {
     cwd: process.cwd()
   })
-  t.equal(result.status, 0)
-  t.equal(result.stdout.toString().trim(), '[1557721475837] INFO (48079 on MacBook-Pro-4): This is not a request/response log\n    v: 1')
+  assert.equal(result.status, 0)
+  assert.equal(result.stdout.toString().trim(), '[1557721475837] INFO (48079 on MacBook-Pro-4): This is not a request/response log\n    v: 1')
 })
 
-t.test('http-print pino transport test stderr', async t => {
+test('http-print pino transport test stderr', async () => {
   const result = spawnSync('node', [join(__dirname, 'fixtures', 'log-stdout.js'), '2'], {
     cwd: process.cwd()
   })
-  t.equal(result.status, 0)
-  t.equal(result.stderr.toString().trim(), '[1557721475837] INFO (48079 on MacBook-Pro-4): This is not a request/response log\n    v: 1')
+  assert.equal(result.status, 0)
+  assert.equal(result.stderr.toString().trim(), '[1557721475837] INFO (48079 on MacBook-Pro-4): This is not a request/response log\n    v: 1')
 })

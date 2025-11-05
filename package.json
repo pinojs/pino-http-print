@@ -7,25 +7,26 @@
     "pino-http-print": "./cmd.js"
   },
   "scripts": {
-    "lint:fix": "standard --fix",
-    "test": "standard && tap --no-coverage --color test/*.test.js"
+    "lint:fix": "eslint --fix",
+    "test": "eslint && c8 node --test"
   },
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "pino": "^8.0.0",
-    "standard": "^17.0.0",
-    "strip-ansi": "^6.0.0",
-    "tap": "^16.3.0"
+    "c8": "^10.1.3",
+    "eslint": "^9.39.1",
+    "neostandard": "^0.12.2",
+    "pino": "^10.1.0",
+    "strip-ansi": "^6.0.0"
   },
   "dependencies": {
     "args": "^5.0.1",
     "colorette": "^2.0.14",
     "ndjson": "^2.0.0",
-    "pino-abstract-transport": "^1.0.0",
-    "pino-pretty": "^8.1.0",
+    "pino-abstract-transport": "^3.0.0",
+    "pino-pretty": "^13.1.2",
     "pretty-ms": "^7.0.0",
-    "sonic-boom": "^3.2.0",
+    "sonic-boom": "^4.2.0",
     "through2": "^4.0.0"
   },
   "repository": {

@@ -1,3 +1,4 @@
+'use strict'
 
 const parse = require('ndjson').parse
 const through = require('through2').obj
@@ -21,11 +22,17 @@ const transport = require('./lib/transport')
  * @param {HttpPrintOptions} [options]
  * @param {Object} [prettyOptions] options to forward to `pino-pretty` when `all` option is set
  */
-function httpPrintFactory (options, prettyOptions) {
+function httpPrintFactory (options, prettyOptions = { translateTime: false }) {
   const opts = Object.assign({}, defaultOptions, options)
+  // When `translateTime` is `true`, `pino-pretty` will use the `DATE_FORMAT_SIMPLE`
+  // format. This module expects it to be the `DATE_FORMAT` format.
+  prettyOptions.translateTime = prettyOptions?.translateTime === true
+    ? 'yyyy-mm-dd HH:MM:ss.l o'
+    : prettyOptions?.translateTime
   const prettyPrinter = prettyFactory(Object.assign({}, {
     colorize: opts.colorize,
-    translateTime: opts.translateTime
+    ignore: '',
+    colorizeObjects: false
   }, prettyOptions))
 
   /**
